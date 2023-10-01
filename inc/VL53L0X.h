@@ -89,7 +89,7 @@ public:
   }
   /**
    * @brief Set the I2C address of the VL53L0X
-   * 
+   *
    * @param new_address right-aligned address
    */
   bool setDeviceAddress(uint8_t new_address) {
@@ -196,8 +196,8 @@ public:
     return true;
   }
 
-  void i2cMasterInit(gpio_num_t pin_sda = GPIO_NUM_21,
-                     gpio_num_t pin_scl = GPIO_NUM_22, uint32_t freq = 400000) {
+  void i2cMasterInit(gpio_num_t pin_sda,
+                     gpio_num_t pin_scl, uint32_t freq = 400000) {
     i2c_config_t conf;
     memset(&conf, 0, sizeof(i2c_config_t));
     conf.mode = I2C_MODE_MASTER;
