@@ -221,6 +221,42 @@ public:
     return true;
   }
 
+bool enableLongRange() {
+    VL53L0X_Error status = VL53L0X_SetLimitCheckValue(&vl53l0x_dev,
+    VL53L0X_CHECKENABLE_SIGNAL_RATE_FINAL_RANGE,
+    (FixPoint1616_t)(0.1*65536));
+
+    if (status == VL53L0X_ERROR_NONE) {
+      status = VL53L0X_SetLimitCheckValue(&vl53l0x_dev,
+      VL53L0X_CHECKENABLE_SIGMA_FINAL_RANGE,
+      (FixPoint1616_t)(60*65536));
+    } else {
+      print_pal_error(status, "VL53L0X_SetLimitCheckValue");
+    }
+
+    if (status == VL53L0X_ERROR_NONE) {
+      status = VL53L0X_SetMeasurementTimingBudgetMicroSeconds(&vl53l0x_dev, 33000);
+    } else {
+      print_pal_error(status, "VL53L0X_SetMeasurementTimingBudgetMicroSeconds");
+    }
+
+    if (status == VL53L0X_ERROR_NONE) {
+      status = VL53L0X_SetVcselPulsePeriod(&vl53l0x_dev,
+      VL53L0X_VCSEL_PERIOD_PRE_RANGE, 18);
+    } else {
+      print_pal_error(status, "VL53L0X_SetVcselPulsePeriod PRE");
+    }
+
+    if (status == VL53L0X_ERROR_NONE) {
+      status = VL53L0X_SetVcselPulsePeriod(&vl53l0x_dev,
+      VL53L0X_VCSEL_PERIOD_FINAL_RANGE, 14);
+    } else {
+      print_pal_error(status, "VL53L0X_SetVcselPulsePeriod FINAL");
+    }
+
+    return (status == VL53L0X_ERROR_NONE);
+}
+
 protected:
   static constexpr const char *TAG = "VL53L0X";
   i2c_port_t i2c_port;
