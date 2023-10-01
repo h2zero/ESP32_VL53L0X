@@ -1,0 +1,5 @@
+version: "1.0.0"
+description: C++ VL53L0X driver as an ESP-IDF component
+url: https://github.com/h2zero/ESP32_VL53L0X
+dependencies:
+  idf: ">=5.0"
